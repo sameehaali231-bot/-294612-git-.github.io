@@ -27,24 +27,44 @@ public class Main {
     static class HomeHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
-            if (exchange.getRequestURI().getPath().equals("/")) {
-                // Serve index.html
+            String path = exchange.getRequestURI().getPath();
+            // Basic static file serving for our small site
+            if (path.equals("/") || path.equals("/index.html")) {
+                // Serve the main home page
                 byte[] response = Files.readAllBytes(Paths.get("src/main/resources/index.html"));
                 exchange.getResponseHeaders().set("Content-Type", "text/html");
                 exchange.sendResponseHeaders(200, response.length);
-                OutputStream os = exchange.getResponseBody();
-                os.write(response);
-                os.close();
-            } else if (exchange.getRequestURI().getPath().endsWith(".css")) {
-                // Serve CSS files
-                String filePath = "src/main/resources" + exchange.getRequestURI().getPath();
-                byte[] response = Files.readAllBytes(Paths.get(filePath));
-                exchange.getResponseHeaders().set("Content-Type", "text/css");
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response);
+                }
+            } else if (path.equals("/index2.html")) {
+                // Serve the quiz creation page
+                byte[] response = Files.readAllBytes(Paths.get("src/main/resources/index2.html"));
+                exchange.getResponseHeaders().set("Content-Type", "text/html");
                 exchange.sendResponseHeaders(200, response.length);
-                OutputStream os = exchange.getResponseBody();
-                os.write(response);
-                os.close();
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response);
+                }
+            } else if (path.endsWith(".css") || path.endsWith(".js")) {
+                // Serve static CSS/JS assets from resources
+                String filePath = "src/main/resources" + path;
+                java.nio.file.Path p = Paths.get(filePath);
+                if (Files.exists(p)) {
+                    byte[] response = Files.readAllBytes(p);
+                    String contentType = path.endsWith(".css") ? "text/css" : "application/javascript";
+                    exchange.getResponseHeaders().set("Content-Type", contentType);
+                    exchange.sendResponseHeaders(200, response.length);
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response);
+                    }
+                } else {
+                    exchange.sendResponseHeaders(404, -1);
+                }
+            } else {
+                // Fallback - not found
+                exchange.sendResponseHeaders(404, -1);
             }
+        }
         }
     }
     
