@@ -60,9 +60,34 @@
 
     <div class="welcome-container">
         <h1>Create a Quiz</h1>
-        <p>Welcome! This is where your study journey begins. Get ready to test your knowledge!</p>
+        <p>Select your level and subject to get started!</p>
         
-        <a href="index.html" class="back-btn">← Back to Home</a>
+        <div class="selection-area">
+            <label for="grade">Grade Level</label>
+            <select id="grade">
+                <option value="1">Grade 1</option>
+                <option value="2">Grade 2</option>
+                <option value="3">Grade 3</option>
+                <option value="4">Grade 4</option>
+                <option value="5">Grade 5</option>
+                <option value="6">Grade 6</option>
+            </select>
+
+            <label for="subject">Subject</label>
+            <select id="subject">
+                <option value="math">Math</option>
+                <option value="science">Science</option>
+                <option value="history">History</option>
+                <option value="english">English</option>
+            </select>
+        </div>
+
+        <button class="start-btn" onclick="alert('Starting your ' + document.getElementById('subject').value + ' quiz!')">
+            Start Quiz
+        </button>
+        
+        <br>
+        <a href="/" class="back-btn">← Back to Home</a>
     </div>
 
 </body>
