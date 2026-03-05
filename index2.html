@@ -28,7 +28,7 @@
         }
 
         h1 {
-            color: #667eea; /* Matching your theme purple */
+            color: #667eea;
             margin-bottom: 1rem;
             font-size: 2.5rem;
         }
@@ -75,7 +75,7 @@
             font-size: 1.1rem;
             cursor: pointer;
             width: 100%;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             transition: transform 0.2s;
         }
 
@@ -92,6 +92,7 @@
             padding: 0.5rem 1rem;
             border-radius: 4px;
             transition: all 0.3s;
+            margin-top: 10px;
         }
 
         .back-btn:hover {
@@ -126,13 +127,29 @@
             </select>
         </div>
 
-        <button class="start-btn" onclick="alert('Starting your ' + document.getElementById('subject').value + ' quiz!')">
+        <button class="start-btn" onclick="handleStartQuiz()">
             Start Quiz
         </button>
         
         <br>
         <a href="index.html" class="back-btn">← Back to Home</a>
     </div>
+
+    <script>
+        function handleStartQuiz() {
+            // Get the current selections
+            const grade = document.getElementById('grade').value;
+            const subject = document.getElementById('subject').value;
+
+            // Logical Check: If Grade 1 AND Math are selected
+            if (grade === "1" && subject === "math") {
+                window.location.href = "grade1-math-topics.html";
+            } else {
+                // For other combinations, just show an alert for now
+                alert("The Grade " + grade + " " + subject + " quiz is coming soon!");
+            }
+        }
+    </script>
 
 </body>
 </html>

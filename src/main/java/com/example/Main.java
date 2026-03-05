@@ -45,6 +45,14 @@ public class Main {
                 try (OutputStream os = exchange.getResponseBody()) {
                     os.write(response);
                 }
+            } else if (path.equals("/grade1-math-topics.html")) {
+                // Serve the grade 1 math topics page
+                byte[] response = Files.readAllBytes(Paths.get("src/main/resources/grade1-math-topics.html"));
+                exchange.getResponseHeaders().set("Content-Type", "text/html");
+                exchange.sendResponseHeaders(200, response.length);
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response);
+                }
             } else if (path.endsWith(".css") || path.endsWith(".js")) {
                 // Serve static CSS/JS assets from resources
                 String filePath = "src/main/resources" + path;
