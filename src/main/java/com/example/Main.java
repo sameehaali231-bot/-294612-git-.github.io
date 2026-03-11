@@ -61,6 +61,14 @@ public class Main {
                 try (OutputStream os = exchange.getResponseBody()) {
                     os.write(response);
                 }
+            } else if (path.equals("/grade1-subtraction.html")) {
+                // Serve the grade 1 subtraction page
+                byte[] response = Files.readAllBytes(Paths.get("grade1-subtraction.html"));
+                exchange.getResponseHeaders().set("Content-Type", "text/html");
+                exchange.sendResponseHeaders(200, response.length);
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response);
+                }
             } else if (path.equals("/grade1-counting.html")) {
                 // Serve the grade 1 counting page
                 byte[] response = Files.readAllBytes(Paths.get("grade1-counting.html"));
